@@ -22,6 +22,11 @@ Un fichier `.tex` peut représenter :
 
 Le récit reste fidèle aux événements joués autour de la table. La mise en roman ajoute les descriptions, les transitions, les perceptions et les pensées nécessaires à la narration, sans réécrire les décisions des joueurs ni inventer des conséquences qui n'ont pas eu lieu.
 
+Les règles d'écriture — rythme des paragraphes, ce que les personnages ont le
+droit de savoir, commandes à utiliser — sont décrites dans [STYLE.md](STYLE.md).
+Ce fichier est prévu pour être collé tel quel dans une conversation avec une IA
+chargée d'enrichir un chapitre.
+
 ## Structure
 
 ```text
@@ -37,6 +42,7 @@ alan-pas-riche/
 ├── Makefile
 ├── main.tex
 ├── config.tex
+├── STYLE.md
 └── README.md
 ```
 
