@@ -99,10 +99,13 @@ Il existe une commande pour chaque besoin. Ne pas les contourner à la main.
 Attention : plusieurs lignes vides consécutives ne produisent **rien** de plus
 qu'une seule dans le PDF. Pour créer un espace, c'est `\scenebreak`.
 
-## 5. Ce que la mise en page ne doit pas faire
+## 5. La mise en page est déjà réglée
 
-La typographie du livre est celle d'un roman : alinéa en début de paragraphe,
-pas d'espace entre les paragraphes. C'est volontaire.
+Le livre combine un alinéa en début de paragraphe et un léger espacement entre
+les paragraphes. Les deux sont nécessaires : l'alinéa pour la typographie de
+roman, l'espacement pour qu'une ligne isolée se lise comme une chute et non
+comme une ligne orpheline coincée entre deux blocs.
 
-Si un chapitre paraît étouffant, le problème vient des paragraphes trop courts,
-pas de l'espacement. On corrige le texte, pas `config.tex`.
+Ne pas ajuster `config.tex` chapitre par chapitre. Si un passage paraît
+étouffant, c'est presque toujours que ses paragraphes sont trop courts — cela
+se corrige dans le texte.
