@@ -11,8 +11,11 @@
 \usepackage{setspace}
 \setstretch{1.06}
 
+\newlength{\recitparskip}
+\setlength{\recitparskip}{0.45em plus 0.15em}
+
 \setlength{\parindent}{1.25em}
-\setlength{\parskip}{0.45em plus 0.15em}
+\setlength{\parskip}{\recitparskip}
 \frenchspacing
 
 \widowpenalty=10000
@@ -183,5 +186,7 @@
     bottom=6pt,
     before skip=10pt,
     after skip=10pt,
-    fontupper=\itshape
+    fontupper=\itshape,
+    % tcolorbox n'hérite pas du \parskip du document
+    before upper={\setlength{\parskip}{\recitparskip}}
 }
