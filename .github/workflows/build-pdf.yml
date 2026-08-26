@@ -17,51 +17,57 @@ concurrency:
 
 jobs:
   build:
-    name: Compile LaTeX
+    name: Compile Alan pas riche
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install TeX Live
+      - name: Build Docker image
+        run: docker build -t alan-pas-riche-builder .
+
+      - name: Compile PDF and EPUB
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            texlive-latex-base \
-            texlive-latex-recommended \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-lang-french
+          docker run --rm             --volume "$PWD:/data"             alan-pas-riche-builder
 
-      - name: Compile PDF
-        run: make
-
-      - name: Check PDF
+      - name: Check generated files
         run: |
           test -f aventures.pdf
-          ls -lh aventures.pdf
+          test -f aventures.epub
+          ls -lh aventures.pdf aventures.epub
 
       - name: Prepare GitHub Pages
         run: |
           rm -rf _site
           mkdir -p _site
+
           cp aventures.pdf _site/aventures.pdf
+          cp aventures.epub _site/aventures.epub
 
           cat > _site/index.html <<EOF
           <!DOCTYPE html>
           <html lang="fr">
           <head>
             <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
             <title>Alan pas riche</title>
           </head>
           <body>
             <h1>Alan pas riche</h1>
             <p>Les aventures de Kael, Morrÿs et Obélik.</p>
 
-            <a href="aventures.pdf?v=${GITHUB_SHA}">
-              Télécharger le récit au format PDF
-            </a>
+            <p>
+              <a href="aventures.pdf?v=${GITHUB_SHA}">
+                Télécharger le récit au format PDF
+              </a>
+            </p>
+
+            <p>
+              <a href="aventures.epub?v=${GITHUB_SHA}">
+                Télécharger le récit au format EPUB
+              </a>
+            </p>
           </body>
           </html>
           EOF
@@ -77,7 +83,6 @@ jobs:
   deploy:
     name: Publish GitHub Pages
     needs: build
-
     runs-on: ubuntu-latest
 
     environment:
