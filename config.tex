@@ -1,0 +1,187 @@
+% =============================================================================
+% Configuration generale de la campagne "Alan pas riche"
+% =============================================================================
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage[a4paper,margin=26mm,headheight=15pt]{geometry}
+\usepackage{setspace}
+\setstretch{1.06}
+
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0pt}
+\frenchspacing
+
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+
+% --- Titres ------------------------------------------------------------------
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {\filleft\Large\chaptername\ \thechapter}
+  {1ex}
+  {\titlerule\vspace{1.2ex}\filright}
+
+\titlespacing*{\chapter}{0pt}{-15pt}{28pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}
+  {0.8em}
+  {}
+
+% --- En-tetes et pieds de page ------------------------------------------------
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nouppercase{\leftmark}}
+\fancyhead[R]{\small Alan pas riche}
+\fancyfoot[C]{\thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% --- Informations du livre ----------------------------------------------------
+\newcommand{\BookTitle}{Alan pas riche}
+\newcommand{\BookSubtitle}{Les aventures de Kael, Morrÿs et Obélik}
+\newcommand{\BookMeta}{Donjons \& Dragons --- Récit de campagne}
+\newcommand{\BookAuthor}{Jérémy Cheynet}
+
+% --- Metadonnees PDF ----------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Alan pas riche - Les aventures de Kael, Morrys et Obelik},
+  pdfauthor={\BookAuthor},
+  pdfsubject={Recit de campagne - Donjons et Dragons}
+}
+
+% --- Tableaux ----------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+
+% --- Couleurs et illustrations ------------------------------------------------
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\graphicspath{{img/}}
+
+\renewcommand{\figurename}{Figure}
+\renewcommand{\listfigurename}{Table des illustrations}
+
+\newcommand{\illustration}[4][0.85\textwidth]{%
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=#1]{#2}
+    \caption{#3}
+    \label{fig:#4}
+  \end{figure}
+}
+
+\definecolor{CampaignGray}{gray}{0.25}
+
+\newcolumntype{L}[1]{%
+  >{\raggedright\arraybackslash}p{#1}
+}
+
+% --- Page de titre ------------------------------------------------------------
+\newcommand{\makecampaigntitle}{%
+  \begin{titlepage}
+    \centering
+
+    \vspace*{0.20\textheight}
+
+    {\Huge\bfseries \BookTitle\par}
+
+    \vspace{1.2em}
+
+    {\Large \BookSubtitle\par}
+
+    \vspace{2.2em}
+
+    {\large\color{CampaignGray} \BookMeta\par}
+
+    \vfill
+
+    {\large \BookAuthor\par}
+
+    \vspace{0.8em}
+
+    {\small Une histoire écrite au fil des parties\par}
+
+    \vspace*{0.08\textheight}
+  \end{titlepage}
+}
+
+% --- Separation de scenes -----------------------------------------------------
+\newcommand{\scenebreak}{%
+  \par
+  \vspace{1.2em}
+
+  \begin{center}
+    \textasteriskcentered
+    \quad
+    \textasteriskcentered
+    \quad
+    \textasteriskcentered
+  \end{center}
+
+  \vspace{1.2em}
+  \par
+}
+
+% --- Informations de session -------------------------------------------------
+%
+% En-tete facultatif au debut d'un chapitre pour conserver la trace
+% de la partie dont est issu le recit.
+%
+% Exemple :
+% \sessioninfo{Session d'initiation}{Avant les vacances 2026}
+%
+\newcommand{\sessioninfo}[2]{%
+  \begin{center}
+    \small\itshape
+    #1%
+    \if\relax\detokenize{#2}\relax
+    \else
+      {} --- #2%
+    \fi
+  \end{center}
+
+  \vspace{1em}
+}
+
+% --- Apartés du narrateur -----------------------------------------------------
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{narrateur}{
+    enhanced,
+    breakable,
+    colback=black!3,
+    colframe=black!50,
+    boxrule=0pt,
+    leftrule=2pt,
+    arc=0pt,
+    left=10pt,
+    right=10pt,
+    top=6pt,
+    bottom=6pt,
+    before skip=10pt,
+    after skip=10pt,
+    fontupper=\itshape
+}

@@ -1,0 +1,90 @@
+name: Build and publish Alan pas riche
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Compile LaTeX
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-lang-french
+
+      - name: Compile PDF
+        run: make
+
+      - name: Check PDF
+        run: |
+          test -f aventures.pdf
+          ls -lh aventures.pdf
+
+      - name: Prepare GitHub Pages
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          cp aventures.pdf _site/aventures.pdf
+
+          cat > _site/index.html <<EOF
+          <!DOCTYPE html>
+          <html lang="fr">
+          <head>
+            <meta charset="utf-8">
+            <title>Alan pas riche</title>
+          </head>
+          <body>
+            <h1>Alan pas riche</h1>
+            <p>Les aventures de Kael, Morrÿs et Obélik.</p>
+
+            <a href="aventures.pdf?v=${GITHUB_SHA}">
+              Télécharger le récit au format PDF
+            </a>
+          </body>
+          </html>
+          EOF
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    name: Publish GitHub Pages
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

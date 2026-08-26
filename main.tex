@@ -1,0 +1,20 @@
+\documentclass[11pt,a4paper,oneside]{book}
+\input{config}
+
+\begin{document}
+\frontmatter
+\makecampaigntitle
+\tableofcontents
+\cleardoublepage
+
+% Chaque fichier chapter/*.tex correspond a une session complete ou a un
+% evenement suffisamment important pour meriter son propre chapitre.
+% Le prefixe numerique ne sert qu'a fixer l'ordre de lecture.
+\mainmatter
+\input{.chapters.generated.tex}
+
+\backmatter
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Table des illustrations}
+\listoffigures
+\end{document}
