@@ -6,4 +6,5 @@
 *.lot
 *.pdf
 .chapters.generated.tex
+.book.generated.tex
 *.epub

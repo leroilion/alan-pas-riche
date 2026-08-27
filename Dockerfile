@@ -12,6 +12,8 @@ RUN apt-get update && \
         bash \
         make \
         python3 \
+        python3-pil \
+        python3-yaml \
         pandoc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

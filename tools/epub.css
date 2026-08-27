@@ -1,0 +1,81 @@
+/* CSS volontairement simple : les liseuses gardent la maîtrise de la police,
+   de la taille du texte et des marges utilisateur. */
+
+html, body {
+  line-height: 1.35;
+}
+
+p {
+  margin: 0.65em 0;
+}
+
+h1, h2, h3 {
+  page-break-after: avoid;
+}
+
+h1 {
+  margin-top: 1.8em;
+}
+
+figure {
+  margin: 1.2em auto;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+figcaption {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Équivalent léger du tcolorbox PDF. */
+div.narrateur {
+  margin: 1em 0;
+  padding: 0.25em 0.8em;
+  border-left: 0.18em solid #777;
+  background: #f2f2f2;
+  font-style: italic;
+}
+
+div.narrateur p:first-child {
+  margin-top: 0.4em;
+}
+
+div.narrateur p:last-child {
+  margin-bottom: 0.4em;
+}
+
+/* En-tête de session situé sous le titre du chapitre. */
+div.sessioninfo {
+  margin: 0.3em 0 1.2em 0;
+  text-align: center;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+div.center {
+  margin: 1.4em 0;
+  text-align: center;
+}
+
+blockquote {
+  margin: 1em 1.2em;
+}
+
+dl dt {
+  margin-top: 0.8em;
+  font-weight: bold;
+}
+
+dl dd {
+  margin-left: 1em;
+}
