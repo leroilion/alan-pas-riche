@@ -8,3 +8,4 @@
 .chapters.generated.tex
 .book.generated.tex
 *.epub
+img/screenshot/*
