@@ -9,3 +9,8 @@
 .book.generated.tex
 *.epub
 img/screenshot/*
+sessions/*
+!sessions/main.py
+!sessions/README.md
+!sessions/requirements.txt
+!sessions/pseudo discord
