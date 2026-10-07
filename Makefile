@@ -8,6 +8,11 @@ LATEXFLAGS := -interaction=nonstopmode -halt-on-error -file-line-error
 PANDOC     := pandoc
 PYTHON     := python3
 
+# Cartes autonomes (une feuille A4 paysage par fichier .tex)
+MAPDIR     := IMG/map
+MAP_TEX    := $(sort $(wildcard $(MAPDIR)/*/*.tex))
+MAP_PDF    := $(MAP_TEX:.tex=.pdf)
+
 BOOK_CONFIG      := book.yml
 BOOK_CONFIG_TOOL := tools/generate_book_config.py
 BOOK_TEX         := .book.generated.tex
@@ -22,7 +27,7 @@ EPUB_IMAGE_MAX_WIDTH  ?= 1200
 EPUB_IMAGE_MAX_HEIGHT ?= 1600
 EPUB_IMAGE_QUALITY    ?= 82
 
-.PHONY: all pdf epub epub-color clean chapters show-chapters metadata
+.PHONY: all pdf epub epub-color maps clean clean-maps chapters show-chapters show-maps metadata
 
 all: pdf epub
 
@@ -43,7 +48,7 @@ metadata: $(BOOK_TEX)
 
 chapters: $(CHAPLIST)
 
-$(OUTPUT).pdf: $(MAIN).tex config.tex $(BOOK_TEX) $(CHAPLIST) $(CHAPTERS)
+$(OUTPUT).pdf: $(MAIN).tex config.tex $(BOOK_TEX) $(CHAPLIST) $(CHAPTERS) $(MAP_PDF)
 	$(LATEX) $(LATEXFLAGS) -jobname=$(OUTPUT) $(MAIN).tex
 	$(LATEX) $(LATEXFLAGS) -jobname=$(OUTPUT) $(MAIN).tex
 	@rm -f $(OUTPUT).aux $(OUTPUT).log $(OUTPUT).toc $(OUTPUT).out $(OUTPUT).lof $(OUTPUT).lot
@@ -99,6 +104,29 @@ epub-color: $(CHAPLIST) $(MAIN).tex config.tex $(BOOK_CONFIG) $(BOOK_CONFIG_TOOL
 		--resource-path=".:$(EPUB_TMP)" \
 		-o "$(OUTPUT).epub"
 
+# Compile chaque carte dans son propre dossier.
+# Exemple : make maps
+maps: $(MAP_PDF)
+
+$(MAPDIR)/%.pdf: $(MAPDIR)/%.tex
+	@set -eu; \
+	dir="$$(dirname "$<")"; \
+	file="$$(basename "$<")"; \
+	cd "$$dir"; \
+	$(LATEX) $(LATEXFLAGS) "$$file"; \
+	$(LATEX) $(LATEXFLAGS) "$$file"; \
+	rm -f "$${file%.tex}.aux" "$${file%.tex}.log" "$${file%.tex}.out"
+
+show-maps:
+	@printf '%s\n' $(MAP_TEX)
+
+clean-maps:
+	rm -f $(MAP_PDF)
+	@for file in $(MAP_TEX); do \
+		base="$${file%.tex}"; \
+		rm -f "$$base.aux" "$$base.log" "$$base.out"; \
+	done
+
 show-chapters:
 	@printf '%s\n' $(CHAPTERS)
 
@@ -107,3 +135,4 @@ clean:
 	      $(OUTPUT).aux $(OUTPUT).log $(OUTPUT).toc $(OUTPUT).out \
 	      $(OUTPUT).lof $(OUTPUT).lot $(CHAPLIST) $(BOOK_TEX)
 	rm -rf $(EPUB_TMP)
+	$(MAKE) clean-maps

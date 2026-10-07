@@ -1,0 +1,26 @@
+% =============================================================================
+% Annexe : cartes
+% =============================================================================
+% Les cartes sont compilees separement au format A4 paysage puis inserees ici.
+% fitpaper=true conserve leur format reel dans le PDF final.
+%
+% Pour ajouter une carte :
+%   1. creer IMG/map/<nom>/<nom>.tex ;
+%   2. ajouter son PDF ci-dessous ;
+%   3. `make pdf` compile les cartes avant le livre.
+% =============================================================================
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Cartes}
+
+% Port Nyanzaru
+\IfFileExists{IMG/map/port_nyanzaru/port_nyanzaru.pdf}{%
+  \includepdf[
+    pages=-,
+    fitpaper=true,
+    pagecommand={\thispagestyle{empty}}
+  ]{IMG/map/port_nyanzaru/port_nyanzaru.pdf}%
+}{%
+  \PackageWarning{alan-pas-riche}{Carte Port Nyanzaru absente : lancer `make maps`}%
+}
