@@ -9,7 +9,7 @@ PANDOC     := pandoc
 PYTHON     := python3
 
 # Cartes autonomes (une feuille A4 paysage par fichier .tex)
-MAPDIR     := IMG/map
+MAPDIR     := img/map
 MAP_TEX    := $(sort $(wildcard $(MAPDIR)/*/*.tex))
 MAP_PDF    := $(MAP_TEX:.tex=.pdf)
 
